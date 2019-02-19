@@ -1,3 +1,8 @@
+<?php 
+	$prefs = '';
+	mostrar( get_user_prefs( get_current_user_id() ) );
+	$prefs = get_user_prefs( get_current_user_id() );
+?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 	<head>
@@ -331,9 +336,11 @@
 				background: #f1f1f1;
 				margin: 3px 0;
 			}
+			/*
 			.ordering-category-list:not(.disabled) li{
 				cursor: grab;
 			}
+			*/
 			.ordering-category-list li .form-group,
 			.ordering-category-list li .form-group label{
 				margin: 0;
@@ -417,7 +424,7 @@
 				</div>
 			</nav>
 		</header>
-		<div id="main-container" class="main-container">
+		<div id="main-container" class="main-container <?php echo (in_array('modo_noche', $prefs ))  ? 'dark-mode' : '' ?>">
 		<?php
 			if ( have_posts() ){
 
@@ -526,6 +533,8 @@
 		<!-- Modal -->
 		<div class="modal fade" id="preferencias-del-usuario" tabindex="-1" role="dialog" aria-labelledby="preferencias-del-usuario">
 			<div class="modal-dialog modal-lg" role="document">
+				<form id="user_preferences-form" role="form" method="post">
+				<input type="hidden" name="user_id" value="<?php echo ( is_user_logged_in() ) ? get_current_user_id() : 'guest' ?>">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -544,52 +553,73 @@
 									<ul class="ordering-category-list disabled">
 										<li>
 											<div class="form-group">
-												<input id="hide_un" type="checkbox" name="hide_un" checked disabled>
-												<label for="hide_un">Mostrar sección Últimas Noticias</label>
+												<input id="show_un" type="checkbox" name="show_un" checked disabled>
+												<label for="show_un">Mostrar sección Últimas Noticias</label>
 											</div>
 										</li>
 									</ul>
-									<ul id="sortable" class="ordering-category-list">
+									<ul class="ordering-category-list">
 										<li class="ui-state-default">
 											<div class="form-group">
-												<input id="hide_ev" type="checkbox" name="hide_ev" checked>
-												<label for="hide_ev">Mostrar sección El Vigía</label>
+												<input id="ciudad" type="checkbox" name="ciudad" <?php 
+													echo (!is_user_logged_in()) ? 'checked' : ( is_user_logged_in() && in_array('ciudad', $prefs )) ? 'checked' : '';
+												?>
+												<?php echo (!is_user_logged_in()) ? 'disabled' : '' ?>>
+												<label for="el-vigia">Mostrar sección El Vigía</label>
 											</div>
 										</li>
 										<li class="ui-state-default">
 											<div class="form-group">
-												<input id="hide_nac" type="checkbox" name="hide_nac" checked>
-												<label for="hide_nac">Mostrar sección Nacionales</label>
+												<input id="nacionales" type="checkbox" name="nacionales" <?php 
+													echo (!is_user_logged_in()) ? 'checked' : ( is_user_logged_in() && in_array('nacionales', $prefs )) ? 'checked' : '';
+												?>
+												<?php echo (!is_user_logged_in()) ? 'disabled' : '' ?>>
+												<label for="nacionales">Mostrar sección Nacionales</label>
 											</div>
 										</li>
 										<li class="ui-state-default">
 											<div class="form-group">
-												<input id="hide_int" type="checkbox" name="hide_int" checked>
-												<label for="hide_int">Mostrar sección Internacionales</label>
+												<input id="internacionales" type="checkbox" name="internacionales" <?php 
+													echo (!is_user_logged_in()) ? 'checked' : ( is_user_logged_in() && in_array('internacionales', $prefs )) ? 'checked' : '';
+												?>
+												<?php echo (!is_user_logged_in()) ? 'disabled' : '' ?>>
+												<label for="internacionales">Mostrar sección Internacionales</label>
 											</div>
 										</li>
 										<li class="ui-state-default">
 											<div class="form-group">
-												<input id="hide_pol" type="checkbox" name="hide_pol" checked>
-												<label for="hide_pol">Mostrar sección Política</label>
+												<input id="politica" type="checkbox" name="politica" <?php 
+													echo (!is_user_logged_in()) ? 'checked' : ( is_user_logged_in() && in_array('politica', $prefs )) ? 'checked' : '';
+												?>
+												<?php echo (!is_user_logged_in()) ? 'disabled' : '' ?>>
+												<label for="politica">Mostrar sección Política</label>
 											</div>
 										</li>
 										<li class="ui-state-default">
 											<div class="form-group">
-												<input id="hide_eco" type="checkbox" name="hide_eco" checked>
-												<label for="hide_eco">Mostrar sección Economía</label>
+												<input id="economia" type="checkbox" name="economia" <?php 
+													echo (!is_user_logged_in()) ? 'checked' : ( is_user_logged_in() && in_array('economia', $prefs )) ? 'checked' : '';
+												?>
+												<?php echo (!is_user_logged_in()) ? 'disabled' : '' ?> >
+												<label for="economia">Mostrar sección Economía</label>
 											</div>
 										</li>
 										<li class="ui-state-default">
 											<div class="form-group">
-												<input id="hide_suc" type="checkbox" name="hide_suc" checked>
-												<label for="hide_suc">Mostrar sección Sucesos</label>
+												<input id="sucesos" type="checkbox" name="sucesos" <?php 
+													echo (!is_user_logged_in()) ? 'checked' : ( is_user_logged_in() && in_array('sucesos', $prefs )) ? 'checked' : '';
+												?>
+												<?php echo (!is_user_logged_in()) ? 'disabled' : '' ?>>
+												<label for="sucesos">Mostrar sección Sucesos</label>
 											</div>
 										</li>
 										<li class="ui-state-default">
 											<div class="form-group">
-												<input id="hide_dep" type="checkbox" name="hide_dep" checked>
-												<label for="hide_dep">Mostrar sección Deportes</label>
+												<input id="deportes" type="checkbox" name="deportes" <?php 
+													echo (!is_user_logged_in()) ? 'checked' : ( is_user_logged_in() && in_array('deportes', $prefs )) ? 'checked' : '';
+												?>
+												<?php echo (!is_user_logged_in()) ? 'disabled' : '' ?>>
+												<label for="deportes">Mostrar sección Deportes</label>
 											</div>
 										</li>
 									</ul>
@@ -599,13 +629,13 @@
 								<h4>Modo Enfoque</h4>
 								<p>Active el modo enfoque para ocultar la barra lateral y tener una mejor visibilidad del contenido.</p>
 								<div class="form-group">
-									<input id="modo_enfoque" type="checkbox" name="modo_enfoque">
+									<input id="modo_enfoque" type="checkbox" name="modo_enfoque" <?php echo (is_user_logged_in() && in_array('modo_enfoque', $prefs ))  ? 'checked' : '';?>>
 									<label for="modo_enfoque">Activar</label>
 								</div>
 								<h4>Modo Nocturno</h4>
 								<p>Active el modo nocturno para cambiar el color. Especial para aquellos que pasan muchas horas frente a la pantalla.</p>
 								<div class="form-group">
-									<input id="modo_noche" type="checkbox" name="modo_noche">
+									<input id="modo_noche" type="checkbox" name="modo_noche" <?php echo (is_user_logged_in()  && in_array('modo_noche', $prefs ))  ? 'checked' : '';?>>
 									<label for="modo_noche">Activar</label>
 								</div>
 								<div class="alert alert-info alert-dismissible" role="alert">
@@ -625,43 +655,69 @@
 						<?php } ?>
 						</div>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-						<button type="submit" class="btn btn-primary">Guardar</button>
+						<?php if ( is_user_logged_in() ){ ?>
+						<button id="submited_preferences" name="submited_preferences" type="submit" class="btn btn-primary">Guardar</button>
+						<?php } ?>
 					</div>
 				</div>
+				</form>
 			</div>
 		</div>
 		<!-- END Modal -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<!--script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script-->
 		<script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.2/lazyload.js"></script>
+		<script src="<?php echo STYLESHEET_URL ?>/js/jquery.sticky.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<script async defer src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v3.2"></script>
 		<script>
+			<?php 
+				if ($prefs)
+				echo (in_array('modo_enfoque', $prefs ))  ? 'window.eev_user_prefs = { "darkMode" : true };' : '';
+			?>
+			
+			if (window.hasOwnProperty('eev_user_prefs')) {
+				console.log('darkmode')
+				jQuery("#main_sidebar").hide();
+				jQuery("#article_container").removeClass('col-lg-9');
+				jQuery("#article_container").addClass('col-lg-10 col-md-offset-2 col-lg-offset-1');
+			}else{
+				jQuery("#article_container").addClass('col-lg-9');
+				jQuery("#article_container").removeClass('col-lg-10 col-md-offset-2 col-lg-offset-1');
+				jQuery("#main_sidebar").show();
+			}
 			jQuery(document).ready( function(){
+				
+				jQuery("#sticky_sidebar").sticky({topSpacing:60});
+				
 				jQuery("img.lazyload").lazyload();
-				jQuery( "#sortable" ).sortable({
-			    	placeholder: "ui-state-highlight"
-				});
-				jQuery( "#sortable" ).disableSelection();
+//				jQuery( "#sortable" ).sortable({
+//			    	placeholder: "ui-state-highlight"
+//				});
+//				jQuery( "#sortable" ).disableSelection();
 				// modo_enfoque
-				$("#modo_enfoque").click(function () {
-					if ($(this).is(":checked")) {
-						$("#main_sidebar").hide();
-						$("#article_container").removeClass('col-lg-9');
-						$("#article_container").addClass('col-lg-10 col-md-offset-2 col-lg-offset-1');
+				jQuery("#modo_enfoque").click(function () {
+					focus_mode($(this));
+				});
+				jQuery("#modo_noche").click(function () {
+					if (jQuery(this).is(":checked")) {
+						jQuery("#main-container").addClass('dark-mode');
 					} else {
-						$("#article_container").addClass('col-lg-9');
-						$("#article_container").removeClass('col-lg-10 col-md-offset-2 col-lg-offset-1');
-						$("#main_sidebar").show();
+						jQuery("#main-container").removeClass('dark-mode');
 					}
 				});
-				$("#modo_noche").click(function () {
-					if ($(this).is(":checked")) {
-						$("#main-container").addClass('dark-mode');
+				
+				function focus_mode(e = ''){
+					if (e.is(":checked")) {
+						jQuery("#main_sidebar").hide();
+						jQuery("#article_container").removeClass('col-lg-9');
+						jQuery("#article_container").addClass('col-lg-10 col-md-offset-2 col-lg-offset-1');
 					} else {
-						$("#main-container").removeClass('dark-mode');
+						jQuery("#article_container").addClass('col-lg-9');
+						jQuery("#article_container").removeClass('col-lg-10 col-md-offset-2 col-lg-offset-1');
+						jQuery("#main_sidebar").show();
 					}
-				});
+				}
 			})
 		</script>
 	</body>

@@ -12,6 +12,9 @@ function mostrar($var, $die = false){
 /**
  * DEFINITIONS 
  */
+
+
+
 define( 'SITEURL', esc_url( home_url() ) );
 define( 'STYLESHEET_URL', esc_url( get_template_directory_uri() ) );
 
@@ -19,6 +22,7 @@ define( 'STYLESHEET_URL', esc_url( get_template_directory_uri() ) );
  * INCLUDES 
  */
 require_once 'includes/wp_bootstrap_navwalker.php';
+require_once 'includes/eev_helper_functions.php';
 
 /**
  * SUPPORTS 
