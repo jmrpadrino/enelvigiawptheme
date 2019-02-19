@@ -1,7 +1,17 @@
 <?php 
 	$prefs = '';
-	mostrar( get_user_prefs( get_current_user_id() ) );
-	$prefs = get_user_prefs( get_current_user_id() );
+    if (is_user_logged_in()){
+        $prefs = get_user_prefs( get_current_user_id() );
+        $user_logged = get_currentuserinfo();
+        if (
+                current_user_can('administrator') ||
+                current_user_can('editor') ||
+                current_user_can('author') ||
+                current_user_can('colaborator')
+        ){
+            $user_can = true;
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -271,6 +281,11 @@
 				background: transparent;
 				border-bottom: 3px solid currentColor;
 			}
+            .hi-to-user{
+                font-size: 12px;
+                display: inline-block;
+                margin-bottom: 12px;
+            }
 			.archive-post-cat-list a{
 				border-bottom: 2px solid currentColor;
 				font-size: 12px;
@@ -390,37 +405,49 @@
 		<header id="header" class="header">
 			<nav class="navbar navbar-eev navbar-fixed-top">
 				<div class="container-fluid">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#eev_top_menu" aria-expanded="false">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand eev-site-title" href="<?php echo SITEURL ?>"><img src="<?php echo STYLESHEET_URL ?>/img/favicon-32x32.png" alt="Noticias En El Vigia - Logo"> Noticias En El Vigía</a> <span class="navbar-brand eev-site-date"><?php echo date('d-m-Y H:m') ?></span>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#eev_top_menu" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a class="navbar-brand eev-site-title" href="<?php echo SITEURL ?>"><img src="<?php echo STYLESHEET_URL ?>/img/favicon-32x32.png" alt="Noticias En El Vigia - Logo"> Noticias En El Vigía</a> <span class="navbar-brand eev-site-date hidden-xs"><?php echo date('d-m-Y H:m') ?></span>
+                            </div>
+                            <div id="eev_top_menu" class="collapse navbar-collapse">
+                                <form class="navbar-form navbar-right" action="<?php echo SITEURL ?>">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Buscar" name="s" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Buscar</button>
+                                    <span id="eev_config_btn" class="eev-config-btn" data-toggle="modal" data-target="#preferencias-del-usuario" title="Ajuste sus preferencias"><i class="fa fa-cog"></i></span>
+                                </form>
+                                <?php
+                                    wp_nav_menu( array(
+                                        'menu_class'        => 'nav navbar-nav navbar-right eev-main-nav',
+                                        'menu_id'           => 'eev_top_menu_list',
+                                        'theme_location'    => 'main_nav',
+                                        'depth'             => 2,
+            //							'container'         => 'div',
+            //							'container_class'   => 'collapse navbar-collapse',
+            //							'container_id'      => 'eev_top_menu',
+                                        'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+                                        'walker'            => new wp_bootstrap_navwalker())
+                                    );
+
+                               ?>
+                            </div>
+                        </div>
 					</div>
-					<div id="eev_top_menu" class="collapse navbar-collapse">
-					<form class="navbar-form navbar-right" action="<?php echo SITEURL ?>">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Buscar" name="s" required>
-						</div>
-						<button type="submit" class="btn btn-default">Buscar</button>
-						<span id="eev_config_btn" class="eev-config-btn" data-toggle="modal" data-target="#preferencias-del-usuario" title="Ajuste sus preferencias"><i class="fa fa-cog"></i></span>
-					</form>
-					<?php 
-						wp_nav_menu( array(
-							'menu_class'        => 'nav navbar-nav navbar-right eev-main-nav',
-							'menu_id'           => 'eev_top_menu_list',
-							'theme_location'    => 'main_nav',
-							'depth'             => 2,
-//							'container'         => 'div',
-//							'container_class'   => 'collapse navbar-collapse',
-//							'container_id'      => 'eev_top_menu',
-							'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
-							'walker'            => new wp_bootstrap_navwalker())
-						);
-					?>	
+					<?php if ( $user_logged ){ ?>
+					<div class="row">
+					    <div class="col-xs-12 text-right">
+					        <span class="hi-to-user">Hola!, <?php echo $user_logged->display_name ?><?php echo ($user_can) ? ' <a href="' . get_admin_url() . '">Ir al Escritorio</a>' : '' ?> </span>
+					    </div>
 					</div>
+					<?php } ?>
 				</div>
 			</nav>
 		</header>
