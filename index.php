@@ -715,7 +715,7 @@
 			}
 			jQuery(document).ready( function(){
 				
-				jQuery("#sticky_sidebar").sticky({topSpacing:60});
+				jQuery("#sticky_sidebar").sticky({topSpacing:120, bottomSpacing: 550});
 				
 				jQuery("img.lazyload").lazyload();
 //				jQuery( "#sortable" ).sortable({

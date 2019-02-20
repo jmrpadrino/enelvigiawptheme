@@ -18,6 +18,9 @@ $thumb_file = wp_get_attachment_image_src( $thumb_id, 'full' );
 		font-size: 16px;
 		line-height: 1.8;
 	}
+	.article-text{
+		font-size: 21px;
+	}
 	.single-share-buttons .fa{
 		font-size: 22px;
 	}
@@ -79,6 +82,9 @@ $thumb_file = wp_get_attachment_image_src( $thumb_id, 'full' );
 	.fa-whatsapp{
 		color: #25d366;
 	}
+	.lower-sidebar{
+		margin-top: 36px;
+	}
 </style>
 <div class="container">
 
@@ -137,13 +143,13 @@ $thumb_file = wp_get_attachment_image_src( $thumb_id, 'full' );
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-xs-12">
+					<div class="col-xs-12 article-text">
 						<?php the_content(); ?>
 					</div>
 				</div>
 				<?php }else{ ?>
 				<div class="row">
-					<div class="col-xs-12">
+					<div class="col-xs-12 article-text">
 						<?php 
 				  			$args_thumb = array(
 								'medium', 
@@ -171,6 +177,11 @@ $thumb_file = wp_get_attachment_image_src( $thumb_id, 'full' );
 				
 					if ( is_active_sidebar( 'inner_sidebar' ) )
 						dynamic_sidebar( 'inner_sidebar' ); 
+					if ( is_active_sidebar( 'lower_sidebar' ) ){
+						echo '<div id="sticky_sidebar" class="lower-sidebar">';
+						dynamic_sidebar( 'lower_sidebar' ); 
+						echo '</div>';
+					}
 				
 					do_action( 'bottom_single_sidebar' );
 				

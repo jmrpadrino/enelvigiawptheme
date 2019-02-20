@@ -212,8 +212,8 @@ $last_news_ids = array();
 <div class="container ultimas-noticias bottom">
 	<div class="row">
 <?php } ?>
-<?php if ( $i >= 5 && $i <= 7){ ?>
-		<div class="col-md-4">
+<?php if ( $i >= 5 && $i <= 8){ ?>
+		<div class="col-md-3">
 			<article>
 			<a href="<?php echo get_the_permalink() ?>">
 				<img class="img-responsive" alt="<?php the_title() ?>" src="<?php echo $img ?>">
@@ -224,12 +224,12 @@ $last_news_ids = array();
 			</article>
 		</div>
 <?php } ?>
-<?php if ( $i == 7 ) { ?>
+<?php if ( $i == 8 ) { ?>
 	</div>
 	<div class="row">
 <?php } ?>
-<?php if ( $i > 7 && $i < 11 ) { ?>
-		<div class="col-md-4">
+<?php if ( $i > 8 && $i <= 12 ) { ?>
+		<div class="col-md-3">
 			<article>
 			<a href="<?php echo get_the_permalink() ?>">
 				<img class="img-responsive" alt="<?php the_title() ?>" src="<?php echo $img ?>">
@@ -240,7 +240,7 @@ $last_news_ids = array();
 			</article>
 		</div>
 <?php } ?>
-<?php if ( $i == 10 ){ ?>
+<?php if ( $i == 12 ){ ?>
 	</div>
 <?php } ?>
 <?php $i++; } //END WHILE ?>
@@ -250,6 +250,18 @@ $last_news_ids = array();
 <div class="container">
 	<div class="row">
 		<div class="col-md-8 col-lg-9">
+			<div class="row row-google-adsense">
+				<div class="col-xs-12 text-center">
+					<!-- Noticias en el vigia FOLD -->
+					<ins class="adsbygoogle"
+						 style="display:inline-block;width:728px;height:90px"
+						 data-ad-client="ca-pub-3930153357515520"
+						 data-ad-slot="7543859434"></ins>
+					<script>
+					(adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+				</div>
+			</div>
 <?php 
 	if ($cats){
 		foreach( $cats as $group ){

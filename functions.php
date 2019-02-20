@@ -62,6 +62,15 @@ function enelvigia_widgets_init(){
 		'before_title'  => '<h3 class="inner_sidebar_widget_title">',
 		'after_title'   => '</h3>',
 	) );
+	register_sidebar( array(
+		'name'          => __( 'Sidebar Baja', 'eev' ),
+		'id'            => 'lower_sidebar',
+		'description'   => __( 'Lateral de las seccione internas parte baja.', 'eev' ),
+		'before_widget' => '<div id="%1$s" class="widget inner_sidebar %2$s">',
+		'after_widget'  => '</div>',
+		'before_title'  => '<h3 class="inner_sidebar_widget_title">',
+		'after_title'   => '</h3>',
+	) );
 	
 }
 add_action( 'widgets_init', 'enelvigia_widgets_init' );
@@ -285,7 +294,7 @@ $last_name = ( ! empty( $_POST['last_name'] ) ) ? sanitize_text_field( $_POST['l
 			<input type="text" name="first_name" id="first_name" class="input" value="<?php echo esc_attr(  $first_name  ); ?>" size="25" /></label>
 	</p>
 	<p>
-		<label for="first_name"><?php _e( 'Apellido', 'mydomain' ) ?><br />
+		<label for="last_name"><?php _e( 'Apellido', 'mydomain' ) ?><br />
 			<input type="text" name="last_name" id="last_name" class="input" value="<?php echo esc_attr(  $last_name  ); ?>" size="25" /></label>
 	</p>
 	<?php
@@ -296,7 +305,12 @@ add_filter( 'registration_errors', 'myplugin_registration_errors', 10, 3 );
 function myplugin_registration_errors( $errors, $sanitized_user_login, $user_email ) {
 
 	if ( empty( $_POST['first_name'] ) || ! empty( $_POST['first_name'] ) && trim( $_POST['first_name'] ) == '' ) {
-	$errors->add( 'first_name_error', sprintf('<strong>%s</strong>: %s',__( 'ERROR', 'mydomain' ),__( 'You must include a first name.', 'mydomain' ) ) );
+	$errors->add( 'first_name_error', sprintf('<strong>%s</strong>: %s',__( 'ERROR', 'mydomain' ),__( 'Debe escribir si nombre.', 'mydomain' ) ) );
+
+	}
+	
+	if ( empty( $_POST['last_name'] ) || ! empty( $_POST['last_name'] ) && trim( $_POST['last_name'] ) == '' ) {
+	$errors->add( 'last_name_error', sprintf('<strong>%s</strong>: %s',__( 'ERROR', 'mydomain' ),__( 'Debe escribir si apellido.', 'mydomain' ) ) );
 
 	}
 
@@ -307,6 +321,9 @@ add_action( 'user_register', 'myplugin_user_register' );
 function myplugin_user_register( $user_id ) {
 	if ( ! empty( $_POST['first_name'] ) ) {
 		update_user_meta( $user_id, 'first_name', sanitize_text_field( $_POST['first_name'] ) );
+	}
+	if ( ! empty( $_POST['last_name'] ) ) {
+		update_user_meta( $user_id, 'last_name', sanitize_text_field( $_POST['last_name'] ) );
 	}
 }
 function change_login_headerurl( $login_header_url ){
@@ -399,4 +416,39 @@ function eev_show_cat_list($the_post_id = ''){
 	}
 	$cat_list .= '</ul>';
 	return $cat_list;
+}
+
+/**
+ * BREADCRUMBS 
+ */
+function the_breadcrumb() {
+        echo '<ul id="crumbs">';
+    if (!is_home()) {
+        echo '<li><a href="';
+        echo get_option('home');
+        echo '">';
+        echo 'Home';
+        echo "</a></li>";
+        if (is_category() || is_single()) {
+            echo '<li>';
+            the_category(' </li><li> ');
+            if (is_single()) {
+                echo "</li><li>";
+                the_title();
+                echo '</li>';
+            }
+        } elseif (is_page()) {
+            echo '<li>';
+            echo the_title();
+            echo '</li>';
+        }
+    }
+    elseif (is_tag()) {single_tag_title();}
+    elseif (is_day()) {echo"<li>Archive for "; the_time('F jS, Y'); echo'</li>';}
+    elseif (is_month()) {echo"<li>Archive for "; the_time('F, Y'); echo'</li>';}
+    elseif (is_year()) {echo"<li>Archive for "; the_time('Y'); echo'</li>';}
+    elseif (is_author()) {echo"<li>Author Archive"; echo'</li>';}
+    elseif (isset($_GET['paged']) && !empty($_GET['paged'])) {echo "<li>Blog Archives"; echo'</li>';}
+    elseif (is_search()) {echo"<li>Search Results"; echo'</li>';}
+    echo '</ul>';
 }
