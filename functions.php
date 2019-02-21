@@ -13,8 +13,6 @@ function mostrar($var, $die = false){
  * DEFINITIONS 
  */
 
-
-
 define( 'SITEURL', esc_url( home_url() ) );
 define( 'STYLESHEET_URL', esc_url( get_template_directory_uri() ) );
 
@@ -23,6 +21,51 @@ define( 'STYLESHEET_URL', esc_url( get_template_directory_uri() ) );
  */
 require_once 'includes/wp_bootstrap_navwalker.php';
 require_once 'includes/eev_helper_functions.php';
+
+/**
+ * TEXT DATE IN SPANISH
+ * e.g.: Jueves, 21 de Febrero de 2019
+ */
+function show_date_on_spanish_text(){
+	$text_date = sprintf( '%1$s, %2$s de %3$s de %4$s',
+		get_julian_text(),
+		date('d'),
+		get_month_text(),
+		date('Y')
+	);
+	echo $text_date;
+}
+function get_julian_text(){
+	$julian = date('N');
+	switch ($julian){
+		case 1 : $julian = 'Lunes'; 	break;
+		case 2 : $julian = 'Martes'; 	break;
+		case 3 : $julian = 'Miércoles'; break;
+		case 4 : $julian = 'Jueves'; 	break;
+		case 5 : $julian = 'Viernes'; 	break;
+		case 6 : $julian = 'Sábado'; 	break;
+		case 7 : $julian = 'Domingo'; 	break;
+	}
+	return $julian;
+}
+function get_month_text(){
+	$month = date('n');
+	switch ($month){
+		case 1	: $month = 'Enero'; 		break;
+		case 2	: $month = 'Febrero'; 		break;
+		case 3	: $month = 'Marzo'; 		break;
+		case 4	: $month = 'Abril'; 		break;
+		case 5	: $month = 'Mayo'; 			break;
+		case 6	: $month = 'Junio'; 		break;
+		case 7	: $month = 'July'; 			break;
+		case 8	: $month = 'Agosto'; 		break;
+		case 9	: $month = 'Septiembre'; 	break;
+		case 10	: $month = 'Octubre'; 		break;
+		case 11	: $month = 'Noviembre'; 	break;
+		case 12	: $month = 'Diciembre'; 	break;
+	}
+	return $month;
+}
 
 /**
  * SUPPORTS 

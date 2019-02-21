@@ -1,5 +1,4 @@
 <?php 
-	$prefs = '';
     if (is_user_logged_in()){
         $prefs = get_user_prefs( get_current_user_id() );
         $user_logged = get_currentuserinfo();
@@ -191,8 +190,9 @@
 		<link rel="apple-touch-icon-precomposed" sizes="152x152" href="<?php echo STYLESHEET_URL ?>/img/apple-touch-icon-152x152.png" />
 		<link rel="icon" type="image/png" href="<?php echo STYLESHEET_URL ?>/img/favicon-96x96.png" sizes="96x96" />
 		<link rel="icon" type="image/png" href="<?php echo STYLESHEET_URL ?>/img/favicon-32x32.png" sizes="32x32" />
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="<?php echo STYLESHEET_URL ?>/css/fontello.css">
+		<link rel="stylesheet" href="<?php echo STYLESHEET_URL ?>/style.css">
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Playfair+Display" rel="stylesheet">
 		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 		<script>
@@ -414,7 +414,7 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <a class="navbar-brand eev-site-title" href="<?php echo SITEURL ?>"><img src="<?php echo STYLESHEET_URL ?>/img/favicon-32x32.png" alt="Noticias En El Vigia - Logo"> Noticias En El Vigía</a> <span class="navbar-brand eev-site-date hidden-xs"><?php echo date('d-m-Y H:m') ?></span>
+                                <a class="navbar-brand eev-site-title" href="<?php echo SITEURL ?>"><img src="<?php echo STYLESHEET_URL ?>/img/favicon-32x32.png" alt="Noticias En El Vigia - Logo"> Noticias En El Vigía</a> <span class="navbar-brand eev-site-date hidden-xs"><?php echo show_date_on_spanish_text() ?></span>
                             </div>
                             <div id="eev_top_menu" class="collapse navbar-collapse">
                                 <form class="navbar-form navbar-right" action="<?php echo SITEURL ?>">

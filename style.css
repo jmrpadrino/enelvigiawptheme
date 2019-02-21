@@ -20,21 +20,25 @@ Use it to make something cool, have fun, and share what you've learned with othe
     margin: 5px 20px 20px 0;
 }
 
-.aligncenter,
-div.aligncenter {
-    display: block;
-    margin: 5px auto 5px auto !important;
-}
-
-.alignright {
-    float:right;
-    margin: 5px 0 20px 20px;
-}
-
-.alignleft {
-    float: left;
-    margin: 5px 20px 20px 0;
-}
+.entry-content img {
+	margin: 0 0 1.5em 0;
+	}
+.alignleft, img.alignleft {
+	margin-right: 1.5em;
+	display: inline;
+	float: left;
+	}
+.alignright, img.alignright {
+	margin-left: 1.5em;
+	display: inline;
+	float: right;
+	}
+.aligncenter, img.aligncenter {
+	margin-right: auto;
+	margin-left: auto;
+	display: block;
+	clear: both;
+	}
 
 a img.alignright {
     float: right;
@@ -125,23 +129,3 @@ a img.aligncenter {
 .gallery-caption {}
 .bypostauthor {}
 
-.blink_text {
-
-animation:1s blinker linear infinite;
--webkit-animation:1s blinker linear infinite;
--moz-animation:1s blinker linear infinite;
-
- color: red;
-}
-
-@-webkit-keyframes blinker {  
- 0% { opacity: 1.0; }
- 50% { opacity: 0.0; }
- 100% { opacity: 1.0; }
- }
-
-@keyframes blinker {  
- 0% { opacity: 1.0; }
- 50% { opacity: 0.0; }
- 100% { opacity: 1.0; }
- }
